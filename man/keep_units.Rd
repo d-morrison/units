@@ -30,4 +30,16 @@ responsible for ensuring the correctness of the output.
 x <- set_units(1:5, m)
 keep_units(drop_units, x)
 
+mu <- as_units(10, "years")
+keep_units(rnorm, n = 1, x = mu)
+
+# we can override input units if needed:
+rate <- as_units(3, "1/year")
+keep_units(rexp, n = 1, x = rate, unit = units(1/rate))
+
+# if `x` does not actually have units, a warning is issued,
+# and the output has no units:
+rate2 <- 3
+keep_units(rexp, n = 1, x = rate2)
+
 }

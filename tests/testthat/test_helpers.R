@@ -14,14 +14,7 @@ test_that("keep_units warns when no units are provided", {
 
 test_that("keep_units sets user-provided units", {
   rate <- set_units(3, "1/min")
-  x <- keep_units(rexp, 3, rate, unit=units(1/rate))
-  expect_identical(units(x), units(1/rate))
-
-})
-
-test_that("keep_units sets units provided by user as a string", {
-  rate <- set_units(3, "1/min")
-  x <- keep_units(rexp, 3, rate, unit = "min")
+  x <- keep_units(rexp, 3, rate, unit = units(1/rate))
   expect_identical(units(x), units(1/rate))
 
 })

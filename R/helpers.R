@@ -17,12 +17,25 @@
 #' x <- set_units(1:5, m)
 #' keep_units(drop_units, x)
 #'
+#' mu <- as_units(10, "years")
+#' keep_units(rnorm, n = 1, x = mu)
+#'
+#' # we can override input units if needed:
+#' rate <- as_units(3, "1/year")
+#' keep_units(rexp, n = 1, x = rate, unit = units(1/rate))
+#'
+#' # if `x` does not actually have units, a warning is issued,
+#' # and the output has no units:
+#' rate2 <- 3
+#' keep_units(rexp, n = 1, x = rate2)
+#'
 #' @export
 keep_units <- function(FUN, x, ..., unit=units(x)) {
-  if (inherits(try(unit, silent = TRUE), "symbolic_units")) {
-    set_units(do.call(FUN, list(x, ...)), unit, mode = "standard")
+  output_units <- try(unit, silent = TRUE)
+  if (inherits(output_units, "symbolic_units")) {
+    set_units(do.call(FUN, list(x, ...)), output_units, mode = "standard")
   } else {
-    warning("`x` does not have units.")
+    warning("wrong `unit` specification.")
     do.call(FUN, list(x, ...))
   }
 }
